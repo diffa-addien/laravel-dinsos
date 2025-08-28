@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Berita;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    // 2. Ambil 3 berita terbaru yang sudah waktunya publish
+    $latestBerita = Berita::where('published_at', '<=', now()) // Hanya ambil berita yang sudah publish
+        ->latest('published_at') // Urutkan dari yang paling baru
+        ->take(3) // Ambil hanya 3
+        ->get();
+
+    // 3. Kirim data berita ke view 'home'
+    return view('home', [
+        'latestBerita' => $latestBerita,
+    ]);
 });

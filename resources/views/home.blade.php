@@ -25,7 +25,7 @@
         <section id="sambutan" class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12" data-aos="fade-up">
                 <div class="md:w-1/3 text-center">
-                    <img src="https://dinsos.haltimkab.go.id/wp-content/uploads/2023/12/Kadis-removebg-preview-1.png" alt="Kepala Dinas" class="rounded-lg shadow-2xl inline-block w-64">
+                    <img src="{{ url('assets/foto_kadis.png') }}" alt="Kepala Dinas" class="rounded-lg shadow-2xl inline-block w-64">
                 </div>
                 <div class="md:w-2/3 text-center md:text-left">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Sambutan Kepala Dinas</h2>
@@ -45,7 +45,7 @@
             </div>
              <div class="flex flex-col md:flex-row items-center gap-10">
                  <div class="md:w-1/2" data-aos="fade-right">
-                     <img src="https://dinsos.haltimkab.go.id/wp-content/uploads/2023/12/photo_2023-12-14_12-28-49-1024x768.jpg" alt="Kantor Dinsos" class="rounded-lg shadow-xl w-full">
+                     <img src="{{ url('assets/kantor_dinsos.jpg') }}" alt="Kantor Dinsos" class="rounded-lg shadow-xl w-full">
                  </div>
                  <div class="md:w-1/2" data-aos="fade-left">
                      <div class="space-y-6">
@@ -72,7 +72,7 @@
              </div>
         </section>
 
-        {{-- 4. Berita Terbaru --}}
+        {{-- 4. Berita Terbaru - BAGIAN INI YANG DIUBAH MENJADI DINAMIS --}}
         <section class="bg-slate-50 py-16 md:py-24">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
@@ -80,38 +80,41 @@
                     <p class="text-gray-500 mt-2" data-aos="fade-up" data-aos-delay="100">Informasi terkini dari Dinas Sosial Halmahera Timur</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
-                        <img src="https://dinsos.haltimkab.go.id/wp-content/uploads/2023/12/photo_2023-12-14_13-05-46-768x576.jpg" alt="Berita 1" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-calendar-alt mr-2"></i>25 Agustus 2025</p>
-                            <h3 class="font-bold text-xl mb-3 text-gray-800 group-hover:text-blue-600 transition-colors"><a href="#">Penyaluran Bantuan Sosial untuk Korban Bencana Alam</a></h3>
-                            <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 text-sm">Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    
+                    {{-- Loop untuk menampilkan berita --}}
+                    @forelse($latestBerita as $berita)
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
+                            <a href="#"> {{-- Nanti akan kita arahkan ke halaman detail berita --}}
+                                <img src="{{ $berita->getFirstMediaUrl('berita') }}" alt="{{ $berita->title }}" class="w-full h-56 object-cover">
+                            </a>
+                            <div class="p-6">
+                                <p class="text-sm text-gray-500 mb-2">
+                                    <i class="fas fa-calendar-alt mr-2"></i>{{ $berita->published_at->format('d F Y') }}
+                                    <span class="mx-2">|</span>
+                                    <i class="fas fa-tag mr-1"></i> {{ ucfirst($berita->category) }}
+                                </p>
+                                <h3 class="font-bold text-xl mb-3 text-gray-800 group-hover:text-blue-600 transition-colors">
+                                    <a href="#">{{ $berita->title }}</a>
+                                </h3>
+                                <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 text-sm">Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
-                        <img src="https://dinsos.haltimkab.go.id/wp-content/uploads/2023/12/photo_2023-12-14_13-03-34-768x576.jpg" alt="Berita 2" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-calendar-alt mr-2"></i>22 Agustus 2025</p>
-                            <h3 class="font-bold text-xl mb-3 text-gray-800 group-hover:text-blue-600 transition-colors"><a href="#">Sosialisasi Program Keluarga Harapan (PKH) Tahun 2025</a></h3>
-                            <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 text-sm">Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    @empty
+                        {{-- Tampilan jika tidak ada berita sama sekali --}}
+                        <div class="col-span-3 text-center py-12">
+                            <p class="text-gray-500">Belum ada berita untuk ditampilkan.</p>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
-                        <img src="https://dinsos.haltimkab.go.id/wp-content/uploads/2023/12/photo_2023-12-14_12-29-01-768x576.jpg" alt="Berita 3" class="w-full h-56 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-calendar-alt mr-2"></i>20 Agustus 2025</p>
-                            <h3 class="font-bold text-xl mb-3 text-gray-800 group-hover:text-blue-600 transition-colors"><a href="#">Pelatihan Keterampilan bagi Penyandang Disabilitas</a></h3>
-                            <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 text-sm">Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
-                        </div>
-                    </div>
+                    @endforelse
+
                 </div>
                 <div class="mt-12 text-center" data-aos="fade-up">
                     <a href="#" class="bg-slate-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-slate-800 transition-all transform hover:scale-105">Lihat Semua Berita</a>
                 </div>
             </div>
         </section>
+        {{-- AKHIR BAGIAN BERITA --}}
 
-        {{-- 5. Pengumuman Section (BARU) --}}
+        {{-- 5. Pengumuman Section --}}
         <section class="bg-gray-800 py-16 md:py-24 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <i class="fas fa-bullhorn text-white text-[25rem] absolute -top-20 -left-20 transform rotate-12"></i>
@@ -125,8 +128,7 @@
             </div>
         </section>
 
-
-        {{-- 6. Statistik Pengunjung Section (BARU) --}}
+        {{-- 6. Statistik Pengunjung Section --}}
         <section class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800" data-aos="fade-up">Statistik Website</h2>
@@ -135,23 +137,17 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-center">
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="0">
-                    <div class="bg-blue-100 text-blue-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-eye"></i>
-                    </div>
+                    <div class="bg-blue-100 text-blue-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4"><i class="fas fa-eye"></i></div>
                     <p class="text-4xl font-bold text-gray-800">1,250</p>
                     <p class="text-gray-500">Pengunjung Hari Ini</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="200">
-                     <div class="bg-green-100 text-green-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-users"></i>
-                    </div>
+                     <div class="bg-green-100 text-green-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4"><i class="fas fa-users"></i></div>
                     <p class="text-4xl font-bold text-gray-800">45,789</p>
                     <p class="text-gray-500">Total Kunjungan Bulan Ini</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100" data-aos="fade-up" data-aos-delay="400">
-                     <div class="bg-purple-100 text-purple-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
+                     <div class="bg-purple-100 text-purple-600 text-3xl w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4"><i class="fas fa-file-alt"></i></div>
                     <p class="text-4xl font-bold text-gray-800">3,421</p>
                     <p class="text-gray-500">Total Unduhan Formulir</p>
                 </div>

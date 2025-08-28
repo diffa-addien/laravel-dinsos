@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center py-4">
             <a href="/" class="flex items-center space-x-3">
-                <img src="{{ asset('logo.png') }}" alt="Logo Dinsos" class="h-12 md:h-14">
+                <img src="{{ url('assets/logo_haltim.png') }}" alt="Logo Dinsos" class="h-12 md:h-14">
                 <div>
                     <h1 class="text-base md:text-lg font-bold text-gray-800 uppercase">Dinas Sosial</h1>
                     <p class="text-xs md:text-sm text-gray-500">Kabupaten Halmahera Timur</p>

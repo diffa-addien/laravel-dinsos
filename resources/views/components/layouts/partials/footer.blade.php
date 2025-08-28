@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="col-span-1 lg:col-span-2">
                 <div class="flex items-center space-x-4 mb-4">
-                    <img src="{{ asset('logo.png') }}" alt="Logo Dinsos" class="h-12 bg-white p-1 rounded-full">
+                    <img src="{{ url('assets/logo_haltim.png') }}" alt="Logo Dinsos" class="h-12 bg-white p-1 rounded-full">
                     <div>
                         <h1 class="text-lg font-bold">DINAS SOSIAL</h1>
                         <p class="text-sm text-gray-300">Kabupaten Halmahera Timur</p>
